@@ -41,12 +41,7 @@ const employeeSchema = new Schema(
             required: true
         }
     },
-    {
-        timestamps: {
-            createdAt: 'created_at',
-            updatedAt: 'updated_at'
-        }
-    }
+    { timestamps: true },
 );
 
 module.exports = mongoose.model('Employee', employeeSchema)

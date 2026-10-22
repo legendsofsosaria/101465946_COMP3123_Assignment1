@@ -8,7 +8,7 @@ const dotenv = require('dotenv')
 dotenv.config();
 
 const app = express()
-const SERVER_PORT = process.env.SERVER_PORT || 3001
+const SERVER_PORT = process.env.SERVER_PORT || 3002
 const CONNECTION_URL = process.env.MONGODB_URI || 'mongodb://localhost:27017/comp3123_assignment1'
 
 app.use(express.json())

@@ -1,28 +1,28 @@
 1. Project setup and database
    [x] User and Employee Mongoose models created
-   [ ] Connect to MongoDB Atlas using the required database name `comp3123_assignment1`
-   [ ] Organize routes, controllers, models, middleware and configuration
-   [ ] Set up `.env` for `MONGODB_URI`, `JWT_SECRET` and `PORT`
-   [ ] Ensure `.env`, `node_modules/` and sensitive files are ignored
+   [x] Connect to MongoDB Atlas using the required database name `comp3123_assignment1`
+   [x] Organize routes, controllers, models, middleware and configuration
+   [x] Set up `.env` and `.env example` for `MONGODB_URI`, `JWT_SECRET` and `PORT`
+   [x] Ensure `.env`, `node_modules/` and sensitive files are ignored
    [ ] Create and test `GET /health`
 
 2. User registration and login
-   [ ] Implement `POST /api/v1/user/signup`
-   [ ] Hash passwords using bcrypt before saving
-   [ ] Handle duplicate usernames and emails
-   [ ] Validate email format and password requirements
-   [ ] Implement `POST /api/v1/user/login`
-   [ ] Support login with username OR email plus password
-   [ ] Generate and return a JWT after successful login
-   [ ] Never return the stored password hash in API responses
-   [ ] Return the required status codes: signup `201`, login `200`
+   [x] Implement `POST /api/v1/user/signup`
+   [x] Hash passwords using bcrypt before saving
+   [x] Handle duplicate usernames and emails
+   [x] Validate email format and password requirements
+   [x] Implement `POST /api/v1/user/login`
+   [x] Support login with username OR email plus password
+   [x] Generate and return a JWT after successful login
+   [x] Never return the stored password hash in API responses
+   [x] Return the required status codes: signup `201`, login `200`
 
 3. JWT authentication middleware
-   [ ] Read tokens from `Authorization: Bearer <jwt>`
+   [x] Read tokens from `Authorization: Bearer <jwt>`
    [ ] Verify JWT signatures
-   [ ] Reject requests without a token
-   [ ] Reject invalid and expired tokens
-   [ ] Identify the authenticated user from the token
+   [x] Reject requests without a token
+   [x] Reject invalid and expired tokens
+   [x] Identify the authenticated user from the token
    [ ] Protect all employee endpoints with authentication middleware
 
 4. Employee CRUD endpoints
@@ -78,12 +78,12 @@
    [ ] Keep sample logs or screenshots showing logging works
 
 9. Postman testing
-   [ ] Test valid signup
-   [ ] Test duplicate username and email
-   [ ] Test invalid email, password and missing fields
-   [ ] Test username login and email login
-   [ ] Test invalid and missing credentials
-   [ ] Test valid, missing, invalid and expired tokens
+   [x] Test valid signup
+   [x] Test duplicate username and email
+   [x] Test invalid email, password and missing fields
+   [x] Test username login and email login
+   [x] Test invalid and missing credentials
+   [x] Test valid, missing, invalid and expired tokens
    [ ] Test valid employee creation and invalid request bodies
    [ ] Test listing, retrieving, updating and deleting employees
    [ ] Test two-user ownership and cross-user access rejection

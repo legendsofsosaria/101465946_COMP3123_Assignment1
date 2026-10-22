@@ -2,7 +2,7 @@
 
 const mongoose = require("mongoose"),
     Schema = mongoose.Schema,
-    bcrypt = require('bcrypt'),
+    bcrypt = require("bcrypt"),
     SALT_WORK_FACTOR = 10;
 
 const userSchema = new Schema(
@@ -28,45 +28,15 @@ const userSchema = new Schema(
             required: true,
             select: false,
         },
-        created_at: {
-            type: Date,
-            default: Date.now
-        },
-        updated_at: {
-            type: Date,
-            default: Date.now
-        }
     },
-    {
-        timestamps: {
-            createdAt: 'created_at',
-            updatedAt: 'updated_at'
-        }
-    }
+    { timestamps: true },
 );
 
-userSchema.pre(save, function (next)
-{
-    let user = this;
+userSchema.pre("save", async function () {
+    if (!this.isModified("password")) return;
 
-    // only hash the password if it has been modified (or is new)
-    if (!user.isModified('password')) return next();
-
-    // generate a salt
-    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt)
-    {
-        if (err) return next(err);
-
-        // hash the password using our new salt
-        bcrypt.hash(user.password, salt, function (err, hash)
-        {
-            if (err) return next(err);
-
-            // override clear text password with the hashed one
-            user.password = hash;
-            next();
-        });
-    });
+    const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
+    this.password = await bcrypt.hash(this.password, salt);
 });
 
 userSchema.methods.comparePassword = function (candidatePassword, cb)

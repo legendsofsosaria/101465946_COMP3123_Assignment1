@@ -1,15 +1,7 @@
-const UserModel = require("../models/user")
-const jwt = require("jsonwebtoken");
-const routes = require("express").Router()
+const routes = require("express").Router();
+const { signup, login } = require("../controllers/userController");
 
-//register a new user
-routes.post("/register", async (req, res) => {
+routes.post("/signup", signup);
+routes.post("/login", login);
 
-});
-
-//login a user
-routes.post("/login", async (req, res) => {
-
-});
-
-module.exports = routes
+module.exports = routes;

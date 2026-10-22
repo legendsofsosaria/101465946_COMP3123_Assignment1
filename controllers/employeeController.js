@@ -1,0 +1,6 @@
+function createEmployee() {
+
+}
+function getEmployees() {
+
+}
