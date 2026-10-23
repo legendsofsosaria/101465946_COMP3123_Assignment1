@@ -6,26 +6,35 @@ const employeeSchema = new Schema(
         first_name: {
             type: String,
             required: true,
-            trim: true
+            trim: true,
+            minlength: 2,
+            maxlength: 100
         },
         last_name: {
             type: String,
             required: true,
-            trim: true
+            trim: true,
+            minlength: 2,
+            maxlength: 100
         },
         email: {
             type: String,
             required: true,
             unique: true,
-            trim: true
+            trim: true,
+            lowercase: true,
+            maxlength: 254,
+            match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         },
         position: {
             type: String,
-            required: true
+            required: true,
+            maxlength: 100
         },
         salary: {
             type: Number,
-            required: true
+            required: true,
+            min: 0
         },
         date_of_joining: {
             type: Date,
@@ -33,7 +42,8 @@ const employeeSchema = new Schema(
         },
         department: {
             type: String,
-            required: true
+            required: true,
+            maxlength: 100
         },
         user: {
             type: mongoose.Schema.Types.ObjectId,
