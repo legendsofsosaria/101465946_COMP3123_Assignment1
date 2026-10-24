@@ -69,12 +69,12 @@
 - [x] Per-user employee authorization — ownership filtering implemented and tested.
 - [ ] Input validation — finish testing all cases.
 - [x] Helmet
-- [ ] Rate limiting
-- [ ] Error handling — final review and testing.
+- [x] Rate limiting
+- [x] Error handling — final review and testing.
 - [x] Local logging
 - [ ] Health-check URL — verify.
 - [ ] Postman testing — complete full regression test.
-- [ ] GitHub repository — verify final state.
+- [x] GitHub repository — verify final state.
 - [ ] README — finish and verify.
 
 ## 4. Final Submission Checks

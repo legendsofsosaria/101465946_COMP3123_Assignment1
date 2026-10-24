@@ -17,6 +17,12 @@ const errorLogs = pino.destination({
     sync: false
 });
 
+// Authentication and security events
+const securityLogs = pino.destination({
+    dest: path.join(logDirectory, "security.log"),
+    sync: false
+});
+
 const logger = pino(
     {
         level: process.env.LOG_LEVEL || "info"
@@ -31,4 +37,9 @@ const errorLogger = pino(
     errorLogs
 );
 
-module.exports = {logger, errorLogger};
+const securityLogger = pino(
+    { level: "warn" },
+    securityLogs
+);
+
+module.exports = {logger, errorLogger, securityLogger};

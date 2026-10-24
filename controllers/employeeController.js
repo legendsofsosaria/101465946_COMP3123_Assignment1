@@ -1,5 +1,5 @@
 const employeeModel = require("../models/employee");
-const { logger, errorLogger } = require("../utils/logger");
+const { logger, errorLogger, securityLogger} = require("../utils/logger");
 
 
 const getEmployees = async (req, res) => {
@@ -94,9 +94,14 @@ const getEmployeeId = async(req, res) => {
         });
 
         if (!employee) {
-            errorLogger.error(
-                { err: "Employee not found" },
+            securityLogger.warn(
+                {
+                    employeeId: req.params.eid,
+                    userId: req.user.id
+                },
+                "Employee not found or access denied"
             );
+
             return res.status(404).json({
                 message: "Employee not found"
             });

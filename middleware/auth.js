@@ -1,9 +1,14 @@
 const jwt = require("jsonwebtoken");
+const { securityLogger } = require("../utils/logger");
 
 function authenticateToken(req, res, next) {
     const authHeader = req.headers["authorization"];
 
     if(!authHeader) {
+        securityLogger.warn(
+            { method: req.method, path: req.path },
+            "Authentication failed: no token provided"
+        );
         return res.status(401).json({ message: "No token provided" });
     }
 
@@ -11,6 +16,10 @@ function authenticateToken(req, res, next) {
     const token = authHeader && authHeader.split(' ')[1];
 
     if (!token) {
+        securityLogger.warn(
+            { method: req.method, path: req.path },
+            "Authentication failed: no token provided"
+        );
         return res.status(401).json({ message: "No token provided" });
     }
 
@@ -19,6 +28,10 @@ function authenticateToken(req, res, next) {
         req.user = decoded;
         next();
     } catch (err) {
+        securityLogger.warn(
+            { method: req.method, path: req.path },
+            "Authentication failed: invalid token"
+        );
         return res.status(403).json({ message: "Invalid token" });
     }
 }
