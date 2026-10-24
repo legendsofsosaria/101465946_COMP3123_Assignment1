@@ -1,31 +1,32 @@
 const employeeModel = require("../models/employee");
-const jwt = require("jsonwebtoken");
-const validateEmployee = require("../utils/validateEmployee");
+const { logger, errorLogger } = require("../utils/logger");
 
 
 const getEmployees = async (req, res) => {
     try {
         // Find all employees that match the requesting user's id from the database
         const employees = await employeeModel.find({ user: req.user.id });
+
+        // Log creation
+        logger.info(
+            { userId: req.user.id, count: employees.length },
+            "Employees retrieved successfully"
+        );
+        // return 200 response
         return res.status(200).json(employees);
     }
     // Handle errors
     catch (error) {
-        console.error(error);
+        errorLogger.error(
+            { err: error, userId: req.user.id },
+            "Failed to retrieve employees"
+        );
         return res.status(500).json({message: "Server error"});
     }
 };
 
 const createEmployee = async(req, res) => {
     try {
-        // Use our validation utility helper to validate the data
-        const validationError = validateEmployee(req.body);
-        if (validationError) {
-            return res.status(400).json({
-                message: validationError
-            });
-        }
-
         const {
             first_name,
             last_name,
@@ -41,6 +42,9 @@ const createEmployee = async(req, res) => {
             user: req.user.id
         });
         if (existingEmployee) {
+            errorLogger.error(
+                { err: "Duplicate employee" },
+            );
             return res.status(400).json({ message: "Employee already exists" });
         }
 
@@ -60,12 +64,22 @@ const createEmployee = async(req, res) => {
         const newEmployee = new employeeModel(employeeData);
         await newEmployee.save();
 
+        // Log successfully saving employee
+        logger.info(
+            { userId: req.user.id, employeeId: newEmployee._id },
+            "Employee saved successfully"
+        );
+
         return res.status(201)
             .json({message: "Employee created successfully",
                 employee: newEmployee});
     }
+    // Handle errors and log them
     catch (error) {
-        console.error(error);
+        errorLogger.error(
+            { err: error, userId: req.user.id },
+            "Failed to create employee"
+        );
         return res.status(500).json({message: "Server error"});
     }
 }
@@ -80,16 +94,28 @@ const getEmployeeId = async(req, res) => {
         });
 
         if (!employee) {
+            errorLogger.error(
+                { err: "Employee not found" },
+            );
             return res.status(404).json({
                 message: "Employee not found"
             });
         }
 
+        // Log success
+        logger.info(
+            { userId: req.user.id, employeeId: employee._id },
+            "Employee found successfully"
+        );
+
         return res.status(200).json(employee);
     }
-    // Handle errors
+    // Handle errors and log them
     catch(error) {
-        console.error(error);
+        errorLogger.error(
+            { err: error, userId: req.user.id },
+            "Failed to get employee"
+        );
         return res.status(500).json({message: "Server error"});
     }
 }
@@ -118,20 +144,6 @@ const updateEmployee = async(req, res) => {
             }
         }
 
-        if (Object.keys(updateData).length === 0) {
-            return res.status(400).json({
-                message: "At least one valid employee field is required"
-            });
-        }
-
-        // Use our validation utility helper to validate the data
-        const validationError = validateEmployee(req.body);
-        if (validationError) {
-            return res.status(400).json({
-                message: validationError
-            });
-        }
-
         // Find and update the employee belonging to this user
         const employee = await employeeModel.findOneAndUpdate(
             {
@@ -146,18 +158,32 @@ const updateEmployee = async(req, res) => {
         );
 
         if (!employee) {
+            errorLogger.error(
+                { err: "Employee not found" },
+            );
             return res.status(404).json({
                 message: "Employee not found"
             });
         }
+
+        // Log success
+        logger.info(
+            { userId: req.user.id, employeeId: employee._id },
+            "Employee updated successfully"
+        );
 
         return res.status(200).json({
             message: "Employee updated successfully",
             employee
         });
 
-    } catch (error) {
-        console.error(error);
+    }
+    // Handle errors and log them
+    catch (error) {
+        errorLogger.error(
+            { err: error, userId: req.user.id },
+            "Failed to update employee"
+        );
         return res.status(500).json({
             message: "Server error"
         });
@@ -172,6 +198,9 @@ const deleteEmployee = async(req, res) => {
 
         // Make sure the eid was provided
         if (!eid) {
+            errorLogger.error(
+                { err: "eid was not provided" },
+            );
             return res.status(400).json({message: "Employee ID is required"});
         }
 
@@ -183,14 +212,26 @@ const deleteEmployee = async(req, res) => {
 
         // If the employee doesn't exist, send 404 not found
         if (!employee) {
+            errorLogger.error(
+                { err: "Employee not found" },
+            );
             return res.status(404).json({message: "Employee not found!"});
         }
 
+        // Log success
+        logger.info(
+            { userId: req.user.id, employeeId: employee._id },
+            "Employee deleted successfully"
+        );
+
         return res.status(204).send();
     }
-    // Handle errors
+    // Handle errors and log them
     catch(error) {
-        console.error(error);
+        errorLogger.error(
+            { err: error, userId: req.user.id },
+            "Failed to delete employee"
+        );
         return res.status(500).json({message: "Server error"});
     }
 }

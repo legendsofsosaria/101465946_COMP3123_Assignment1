@@ -3,34 +3,33 @@
 ## 1. Remaining Functional Requirements
 
 - [x] Finish and test employee GET by ID
-- [ ] Return `404 Not Found` when the employee doesn't exist.
+- [x] Return `404 Not Found` when the employee doesn't exist.
 - [x] Finish and test employee PUT update
-- [ ] Validate input.
-- [ ] Allow only permitted employee fields to be updated.
-- [ ] Enforce per-user ownership.
+- [x] Validate input.
+- [x] Allow only permitted employee fields to be updated.
 - [x] Finish and test employee DELETE
-- [ ] Use the required `eid` query parameter.
-- [ ] Enforce per-user ownership.
-- [ ] Return the appropriate HTTP status codes.
-- [ ] Add and verify Helmet security middleware.
-- [ ] Add and test rate limiting.
-- [ ] Implement local logging
-- [ ] Write logs to the required local `log` folder.
-- [ ] Log relevant application events and errors.
-- [ ] Avoid logging passwords, JWTs, or other sensitive information.
-- [ ] Finish error handling
-- [ ] Handle invalid input.
-- [ ] Handle missing resources.
-- [ ] Handle invalid MongoDB IDs.
-- [ ] Handle unexpected server errors.
+- [x] Use the required `eid` query parameter.
+- [x] Enforce per-user ownership.
+- [x] Return the appropriate HTTP status codes.
+- [x] Add and verify Helmet security middleware.
+- [x] Add and test rate limiting.
+- [x] Implement local logging
+- [x] Write logs to the required local `log` folder.
+- [x] Log relevant application events and errors.
+- [x] Avoid logging passwords, JWTs, or other sensitive information.
+- [x] Finish error handling
+- [x] Handle invalid input.
+- [x] Handle missing resources.
+- [x] Handle invalid MongoDB IDs.
+- [x] Handle unexpected server errors.
 - [ ] Verify the health-check endpoint (`GET /health`).
 - [ ] Run the full Postman regression test
-- [ ] Test successful requests.
-- [ ] Test validation failures.
-- [ ] Test requests without authentication.
-- [ ] Test invalid or expired JWTs.
-- [ ] Test missing resources and invalid IDs.
-- [ ] Test two-user authorization and employee ownership.
+- [x] Test successful requests.
+- [x] Test validation failures.
+- [x] Test requests without authentication.
+- [x] Test invalid or expired JWTs.
+- [x] Test missing resources and invalid IDs.
+- [x] Test two-user authorization and employee ownership.
 
 ## 2. Submission Checklist
 
@@ -59,7 +58,7 @@
 - [x] Express
 - [x] MongoDB
 - [x] Mongoose
-- [ ] REST API — verify all required endpoints.
+- [x] REST API — verify all required endpoints.
 - [x] User signup
 - [x] User login
 - [x] Password hashing
@@ -69,10 +68,10 @@
 - [x] Per-user employee visibility — tested with two accounts.
 - [x] Per-user employee authorization — ownership filtering implemented and tested.
 - [ ] Input validation — finish testing all cases.
-- [ ] Helmet
+- [x] Helmet
 - [ ] Rate limiting
 - [ ] Error handling — final review and testing.
-- [ ] Local logging
+- [x] Local logging
 - [ ] Health-check URL — verify.
 - [ ] Postman testing — complete full regression test.
 - [ ] GitHub repository — verify final state.

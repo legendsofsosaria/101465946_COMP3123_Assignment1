@@ -1,6 +1,7 @@
 const UserModel = require("../models/user");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("node:util");
+const { logger, errorLogger } = require("../utils/logger");
 
 // Sign up a new user
 const signup = async (req, res) => {
@@ -12,6 +13,9 @@ const signup = async (req, res) => {
             ((!email || !email.trim()) && (!username || !username.trim())) ||
             !password || !password.trim()
         ) {
+            errorLogger.error(
+                { err: "Registrations field empty" },
+            );
             return res.status(400).json({
                 message: "Email or username and password are required"
             });
@@ -21,6 +25,9 @@ const signup = async (req, res) => {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!emailPattern.test(email)) {
+            errorLogger.error(
+                { err: "Invalid email address provided" },
+            );
             return res.status(400).json({
                 message: "Please provide a valid email address"
             });
@@ -40,6 +47,9 @@ const signup = async (req, res) => {
 
         // If the user already exists, reject the registration
         if (existingUser) {
+            errorLogger.error(
+                { err: "Duplicate registration" },
+            );
             return res.status(409).json({
                 message: "Username or email already exists"
             });
@@ -54,13 +64,23 @@ const signup = async (req, res) => {
         // Save the info to db
         await newUser.save();
 
+        // Log successfully saving employee
+        logger.info(
+            { userId: newUser._id },
+            "User registered successfully"
+        );
+
         // Return success message and created status code
         return res.status(201).json({
             message: "User registered successfully"
         });
-    } catch (error) {
-        console.error(error);
-        // Handle errors and return an error code
+    }
+    // Handle errors and log them
+    catch (error) {
+        errorLogger.error(
+            { err: error },
+            "Failed to register user"
+        );
         return res.status(500).json({ message: "Server error" });
     }
 };
@@ -75,6 +95,9 @@ const login = async (req, res) => {
             ((!email || !email.trim()) && (!username || !username.trim())) ||
             !password || !password.trim()
         ) {
+            errorLogger.error(
+                { err: "Login fields left empty" },
+            );
             return res.status(400).json({
                 message: "Email or username and password are required"
             });
@@ -90,6 +113,9 @@ const login = async (req, res) => {
 
         // username or email doesn't exist
         if (!user) {
+            errorLogger.error(
+                { err: "Invalid credentials" },
+            );
             return res.status(401).json({
                 message: "Invalid credentials"
             });
@@ -104,6 +130,9 @@ const login = async (req, res) => {
 
         // Password isn't valid
         if (!isPasswordValid) {
+            errorLogger.error(
+                { err: "Invalid credentials" },
+            );
             return res.status(401).json({
                 message: "Invalid credentials"
             });
@@ -116,10 +145,20 @@ const login = async (req, res) => {
             { expiresIn: process.env.JWT_EXPIRES_IN || "1h" }
         );
 
+        // Log success
+        logger.info(
+            { userId: user._id },
+            "User logged in successfully"
+        );
+
         return res.status(200).json({ token });
-    } catch (error) {
-        console.error(error);
-        // Handle errors and return an error code
+    }
+        // Handle errors and log them
+    catch (error) {
+        errorLogger.error(
+            { err: error },
+            "Failed to log in user"
+        );
         return res.status(500).json({ message: "Server error" });
     }
 };
