@@ -58,7 +58,7 @@ app.use(
 // Rate limiting: 100 requests per IP per 15 minutes
 const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    limit: 10,
+    limit: 100,
     standardHeaders: true,
     legacyHeaders: false,
 
